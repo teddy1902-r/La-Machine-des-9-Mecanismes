@@ -1760,3 +1760,12 @@ body.game-open{
   .modal-close{font-size:.6rem;padding:6px 7px}
   .game-modal .stage-head{margin-bottom:11px;padding-bottom:9px}
 }
+
+
+/* Les stations intégrées à la machine remplacent l’ancien hub de cartes. */
+.hub-fallback{
+  display:none !important;
+  height:0 !important;
+  margin:0 !important;
+  overflow:hidden !important;
+}
