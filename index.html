@@ -9,17 +9,95 @@
 <body>
 
 <div class="shell">
-  <section class="hero">
+  <section class="hero machine-hero">
     <div class="hero-top">
       <div>
+        <div class="eyebrow">CENTRALE DE CONTRÔLE · SECTEUR 09</div>
         <h1>⚙️ LA MACHINE DES 9 MÉCANISMES</h1>
-        <div class="kicker">9 casse-têtes jouables — difficulté renforcée</div>
+        <div class="kicker">Réactive les neuf systèmes et réveille la machine géante.</div>
       </div>
       <div class="progress-box">
         <div class="progress-line"><span>Réactivation générale</span><b id="globalText">0 / 9</b></div>
         <div class="progress-track"><div id="globalFill" class="progress-fill"></div></div>
+        <div class="network-state"><span class="status-led"></span><span id="machinePowerText">0/9 NŒUDS EN LIGNE</span></div>
       </div>
     </div>
+
+    <div id="machineScene" class="machine-scene" data-level="0" aria-label="Vue de la machine géante">
+      <div class="machine-grid"></div>
+      <div class="machine-rim rim-one"></div>
+      <div class="machine-rim rim-two"></div>
+      <div class="machine-rim rim-three"></div>
+
+      <svg class="machine-pipe-map" viewBox="0 0 1000 500" role="img" aria-label="Réseau de conduites reliant les neuf mécanismes au cœur">
+        <defs>
+          <filter id="pipeGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+            <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+          </filter>
+        </defs>
+        <path class="pipe-rail" d="M500 250 L500 57"></path>
+        <path class="pipe-rail" d="M500 250 L545 175 L620 105"></path>
+        <path class="pipe-rail" d="M500 250 L620 250 L780 210"></path>
+        <path class="pipe-rail" d="M500 250 L595 300 L730 340"></path>
+        <path class="pipe-rail" d="M500 250 L555 350 L600 445"></path>
+        <path class="pipe-rail" d="M500 250 L445 350 L400 445"></path>
+        <path class="pipe-rail" d="M500 250 L405 300 L270 340"></path>
+        <path class="pipe-rail" d="M500 250 L380 250 L220 210"></path>
+        <path class="pipe-rail" d="M500 250 L455 175 L380 105"></path>
+
+        <path class="machine-pipe" data-pipe="1" d="M500 250 L500 57"></path>
+        <path class="machine-pipe" data-pipe="2" d="M500 250 L545 175 L620 105"></path>
+        <path class="machine-pipe" data-pipe="3" d="M500 250 L620 250 L780 210"></path>
+        <path class="machine-pipe" data-pipe="4" d="M500 250 L595 300 L730 340"></path>
+        <path class="machine-pipe" data-pipe="5" d="M500 250 L555 350 L600 445"></path>
+        <path class="machine-pipe" data-pipe="6" d="M500 250 L445 350 L400 445"></path>
+        <path class="machine-pipe" data-pipe="7" d="M500 250 L405 300 L270 340"></path>
+        <path class="machine-pipe" data-pipe="8" d="M500 250 L380 250 L220 210"></path>
+        <path class="machine-pipe" data-pipe="9" d="M500 250 L455 175 L380 105"></path>
+      </svg>
+
+      <div class="machine-steam steam-one" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="machine-steam steam-two" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="machine-steam steam-three" aria-hidden="true"><i></i><i></i><i></i></div>
+
+      <div class="machine-gear gear-one" data-gear="1" aria-hidden="true"></div>
+      <div class="machine-gear gear-two" data-gear="2" aria-hidden="true"></div>
+      <div class="machine-gear gear-three" data-gear="3" aria-hidden="true"></div>
+      <div class="machine-gear gear-four" data-gear="4" aria-hidden="true"></div>
+      <div class="machine-gear gear-five" data-gear="5" aria-hidden="true"></div>
+      <div class="machine-gear gear-six" data-gear="6" aria-hidden="true"></div>
+      <div class="machine-gear gear-seven" data-gear="7" aria-hidden="true"></div>
+
+      <div id="machineCore" class="machine-core">
+        <div class="core-orbit orbit-one"></div>
+        <div class="core-orbit orbit-two"></div>
+        <div class="core-orbit orbit-three"></div>
+        <div class="core-lens"><span>◆</span></div>
+        <div class="core-bolt core-bolt-a"></div>
+        <div class="core-bolt core-bolt-b"></div>
+        <div class="core-bolt core-bolt-c"></div>
+        <div class="core-bolt core-bolt-d"></div>
+        <div class="core-label"><b id="machineCoreLabel">CORE HORS TENSION</b><small>RÉSEAU PRINCIPAL</small></div>
+      </div>
+
+      <div class="machine-station station-1" data-station="1"><span class="station-number">01</span><span class="station-icon">⚡</span><strong>ÉNERGIE</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
+      <div class="machine-station station-2" data-station="2"><span class="station-number">02</span><span class="station-icon">⚙️</span><strong>ENGRENAGES</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
+      <div class="machine-station station-3" data-station="3"><span class="station-number">03</span><span class="station-icon">💨</span><strong>VAPEUR</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
+      <div class="machine-station station-4" data-station="4"><span class="station-number">04</span><span class="station-icon">💡</span><strong>LUMIÈRE</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
+      <div class="machine-station station-5" data-station="5"><span class="station-number">05</span><span class="station-icon">▦</span><strong>CONVOYEUR</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
+      <div class="machine-station station-6" data-station="6"><span class="station-number">06</span><span class="station-icon">🧲</span><strong>MAGNÉTIQUE</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
+      <div class="machine-station station-7" data-station="7"><span class="station-number">07</span><span class="station-icon">🕒</span><strong>HORLOGE</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
+      <div class="machine-station station-8" data-station="8"><span class="station-number">08</span><span class="station-icon">🔷</span><strong>RÉACTEUR</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
+      <div class="machine-station station-9" data-station="9"><span class="station-number">09</span><span class="station-icon">🖥️</span><strong>TERMINAL</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
+    </div>
+
+    <div class="machine-console">
+      <div class="console-line"><span>⚡ DISTRIBUTION D’ÉNERGIE</span><b id="machinePowerTextConsole">SYSTÈME EN VEILLE</b></div>
+      <div class="console-track"><div id="machinePowerFill" class="console-fill"></div></div>
+      <div id="machineFeed" class="machine-feed">INITIALISATION DU NOYAU CENTRAL · EN ATTENTE DES PREMIÈRES VICTOIRES</div>
+    </div>
+
     <div id="hub" class="hub"></div>
     <div class="row" style="margin-top:12px">
       <button id="resetAll" class="btn" type="button">↻ Réinitialiser toute la machine</button>
@@ -38,11 +116,11 @@
   </section>
 
   <section id="finalMachine" class="machine-final">
-    <div class="big">⚙️ MACHINE ACTIVÉE ⚙️</div>
-    <p>Les 9 mécanismes fonctionnent. Le cœur central s'ouvre enfin.</p>
+    <div class="big">⚙️ MACHINE ENTIÈREMENT ACTIVE ⚙️</div>
+    <p>Les neuf stations sont synchronisées. Le cœur central est ouvert.</p>
     <p><b>Mot secret de test : MÉCANIQUE</b></p>
   </section>
-  <footer>Version renforcée — chaque mécanisme est jouable sur ordinateur et téléphone.</footer>
+  <footer>Version machine géante — neuf systèmes, une seule activation.</footer>
 </div>
 
 <script src="data.js"></script>
