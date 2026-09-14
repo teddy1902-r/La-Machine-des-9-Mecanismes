@@ -2,6 +2,38 @@ function stopActiveGame(){
   try{activeCleanup();}catch(error){}
   activeCleanup=function(){};
 }
+function renderMachine(){
+  if(!machineScene)return;
+  const count=solved.size;
+  machineScene.dataset.level=String(count);
+  machineScene.style.setProperty('--power',(count/9*100)+'%');
+  machineScene.querySelectorAll('.machine-station').forEach(function(station){
+    const id=Number(station.dataset.station);
+    const active=solved.has(id);
+    station.classList.toggle('active',active);
+    const state=station.querySelector('.station-state');
+    if(state)state.textContent=active?'EN LIGNE':'HORS LIGNE';
+  });
+  machineScene.querySelectorAll('.machine-pipe').forEach(function(pipe){
+    pipe.classList.toggle('active',solved.has(Number(pipe.dataset.pipe)));
+  });
+  machineScene.querySelectorAll('.machine-gear').forEach(function(gear){
+    gear.classList.toggle('active',Number(gear.dataset.gear)<=count);
+  });
+  machineScene.querySelectorAll('.machine-steam').forEach(function(steam,index){
+    steam.classList.toggle('active',count>=2+index*2);
+  });
+  machineCore.classList.toggle('active',count>0);
+  machineCoreLabel.textContent=count===9?'CORE COMPLET':count?'CORE EN CHARGE':'CORE HORS TENSION';
+  machinePowerText.textContent=count+'/9 NŒUDS EN LIGNE';
+  machinePowerTextConsole.textContent=count===0?'SYSTÈME EN VEILLE':count===9?'SYSTÈME NOMINAL':'DISTRIBUTION EN COURS';
+  machinePowerFill.style.width=(count/9*100)+'%';
+  const activeNames=modules.filter(function(module){return solved.has(module.id);}).map(function(module){
+    return String(module.id).padStart(2,'0')+' '+module.title.toUpperCase();
+  });
+  machineFeed.textContent=count?('LIAISONS ACTIVES : '+activeNames.join('  ·  ')): 'INITIALISATION DU NOYAU CENTRAL · EN ATTENTE DES PREMIÈRES VICTOIRES';
+  document.querySelector('.status-led').classList.toggle('online',count>0);
+}
 function renderHub(){
   hub.innerHTML='';
   modules.forEach(function(m){
@@ -19,6 +51,7 @@ function renderHub(){
   globalText.textContent=solved.size+' / 9';
   globalFill.style.width=(solved.size/9*100)+'%';
   finalMachine.classList.toggle('show',solved.size===9);
+  renderMachine();
 }
 function complete(id,statusEl,msg){
   const newlySolved=!solved.has(id);
