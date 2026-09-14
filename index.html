@@ -45,13 +45,9 @@
   <footer>Version prototype — les graphismes, textes et solutions pourront être modifiés avant mise sur GitHub.</footer>
 </div>
 
-<script>
-Promise.all([fetch("js/chunk1.txt").then(r=>r.text()),fetch("js/chunk2.txt").then(r=>r.text()),fetch("js/chunk3.txt").then(r=>r.text()),fetch("js/chunk4.txt").then(r=>r.text())])
-.then(parts => (0,eval)(parts.join("")))
-.catch(err => {
-  console.error(err);
-  document.body.insertAdjacentHTML("beforeend","<p style=\"color:#fff;text-align:center\">Erreur de chargement du jeu.</p>");
-});
-</script>
+<script src="core.js"></script>
+<script src="games-a.js"></script>
+<script src="games-b.js"></script>
+<script src="init.js"></script>
 </body>
 </html>
