@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Machine des 9 Mécanismes</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="shell">
+  <section class="hero">
+    <div class="hero-top">
+      <div>
+        <h1>⚙️ LA MACHINE DES 9 MÉCANISMES</h1>
+        <div class="kicker">Prototype complet — 9 casse-têtes jouables</div>
+      </div>
+      <div class="progress-box">
+        <div class="progress-line"><span>Réactivation générale</span><b id="globalText">0 / 9</b></div>
+        <div class="progress-track"><div id="globalFill" class="progress-fill"></div></div>
+      </div>
+    </div>
+    <div id="hub" class="hub"></div>
+    <div class="row" style="margin-top:12px">
+      <button id="resetAll" class="btn" type="button">↻ Réinitialiser toute la machine</button>
+    </div>
+  </section>
+
+  <section id="stage" class="stage">
+    <div class="stage-head">
+      <div>
+        <h2 id="stageTitle"></h2>
+        <div id="stageDesc" class="desc"></div>
+      </div>
+      <button id="backHub" class="btn" type="button">← Retour aux mécanismes</button>
+    </div>
+    <div id="gameMount"></div>
+  </section>
+
+  <section id="finalMachine" class="machine-final">
+    <div class="big">⚙️ MACHINE ACTIVÉE ⚙️</div>
+    <p>Les 9 mécanismes fonctionnent. Le cœur central s'ouvre enfin.</p>
+    <p><b>Mot secret de test : MÉCANIQUE</b></p>
+  </section>
+  <footer>Version prototype — les graphismes, textes et solutions pourront être modifiés avant mise sur GitHub.</footer>
+</div>
+
+<script>
+Promise.all([fetch("js/chunk1.txt").then(r=>r.text()),fetch("js/chunk2.txt").then(r=>r.text()),fetch("js/chunk3.txt").then(r=>r.text()),fetch("js/chunk4.txt").then(r=>r.text())])
+.then(parts => (0,eval)(parts.join("")))
+.catch(err => {
+  console.error(err);
+  document.body.insertAdjacentHTML("beforeend","<p style=\"color:#fff;text-align:center\">Erreur de chargement du jeu.</p>");
+});
+</script>
+</body>
+</html>
