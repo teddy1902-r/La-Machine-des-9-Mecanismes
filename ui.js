@@ -1,5 +1,6 @@
 const gameModal=document.getElementById('gameModal');
 const modalBackdrop=document.querySelector('[data-close-game]');
+const modalCloseButton=document.getElementById('backHub');
 
 function stopActiveGame(){
   try{activeCleanup();}catch(error){}
@@ -104,7 +105,7 @@ function openModule(id){
   document.body.classList.add('game-open');
   const f=games[id];
   if(f)f();
-  if(backHub)backHub.focus();
+  if(modalCloseButton)modalCloseButton.focus();
 }
 
 function activateStation(station){
@@ -112,7 +113,7 @@ function activateStation(station){
   if(id)openModule(id);
 }
 
-document.getElementById('backHub').addEventListener('click',closeGameModal);
+if(modalCloseButton)modalCloseButton.addEventListener('click',closeGameModal);
 if(modalBackdrop)modalBackdrop.addEventListener('click',closeGameModal);
 
 document.addEventListener('click',function(event){
