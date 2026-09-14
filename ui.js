@@ -1,7 +1,22 @@
+const gameModal=document.getElementById('gameModal');
+const modalBackdrop=document.querySelector('[data-close-game]');
+
 function stopActiveGame(){
   try{activeCleanup();}catch(error){}
   activeCleanup=function(){};
 }
+
+function closeGameModal(){
+  stopActiveGame();
+  stage.classList.remove('active');
+  if(gameModal){
+    gameModal.classList.remove('active');
+    gameModal.setAttribute('aria-hidden','true');
+  }
+  document.body.classList.remove('game-open');
+  gameMount.innerHTML='';
+}
+
 function renderMachine(){
   if(!machineScene)return;
   const count=solved.size;
@@ -16,6 +31,7 @@ function renderMachine(){
     const id=Number(station.dataset.station);
     const active=solved.has(id);
     station.classList.toggle('active',active);
+    station.setAttribute('aria-pressed',active?'true':'false');
     const state=station.querySelector('.station-state');
     if(state)state.textContent=active?'EN LIGNE':'HORS LIGNE';
   });
@@ -36,9 +52,11 @@ function renderMachine(){
   const activeNames=modules.filter(function(module){return solved.has(module.id);}).map(function(module){
     return String(module.id).padStart(2,'0')+' '+module.title.toUpperCase();
   });
-  machineFeed.textContent=count?('LIAISONS ACTIVES : '+activeNames.join('  ·  ')): 'INITIALISATION DU NOYAU CENTRAL · EN ATTENTE DES PREMIÈRES VICTOIRES';
-  document.querySelector('.status-led').classList.toggle('online',count>0);
+  machineFeed.textContent=count?('LIAISONS ACTIVES : '+activeNames.join('  ·  ')):'INITIALISATION DU NOYAU CENTRAL · EN ATTENTE DES PREMIÈRES VICTOIRES';
+  const statusLed=document.querySelector('.status-led');
+  if(statusLed)statusLed.classList.toggle('online',count>0);
 }
+
 function renderHub(){
   hub.innerHTML='';
   modules.forEach(function(m){
@@ -58,6 +76,7 @@ function renderHub(){
   finalMachine.classList.toggle('show',solved.size===9);
   renderMachine();
 }
+
 function complete(id,statusEl,msg){
   const newlySolved=!solved.has(id);
   solved.add(id);
@@ -65,31 +84,64 @@ function complete(id,statusEl,msg){
   statusEl.className='status ok';
   if(newlySolved)renderHub();
 }
+
 function openModule(id){
   stopActiveGame();
+  const m=modules.find(function(x){return x.id===id;});
+  if(!m)return;
   if(solved.has(id)){
     solved.delete(id);
     renderHub();
   }
-  const m=modules.find(function(x){return x.id===id;});
   stageTitle.textContent=m.icon+' MÉCANISME '+id+' — '+m.title.toUpperCase();
   stageDesc.textContent=m.desc;
-  stage.classList.add('active');
   gameMount.innerHTML='';
-  stage.scrollIntoView({behavior:'smooth',block:'start'});
+  stage.classList.add('active');
+  if(gameModal){
+    gameModal.classList.add('active');
+    gameModal.setAttribute('aria-hidden','false');
+  }
+  document.body.classList.add('game-open');
   const f=games[id];
   if(f)f();
+  if(backHub)backHub.focus();
 }
-document.getElementById('backHub').addEventListener('click',function(){
-  stopActiveGame();
-  stage.classList.remove('active');
-  gameMount.innerHTML='';
-  window.scrollTo({top:0,behavior:'smooth'});
+
+function activateStation(station){
+  const id=Number(station.dataset.station);
+  if(id)openModule(id);
+}
+
+document.getElementById('backHub').addEventListener('click',closeGameModal);
+if(modalBackdrop)modalBackdrop.addEventListener('click',closeGameModal);
+
+document.addEventListener('click',function(event){
+  const target=event.target instanceof Element?event.target:null;
+  if(!target)return;
+  const station=target.closest('.machine-station');
+  if(station){
+    event.preventDefault();
+    activateStation(station);
+  }
 });
+
+document.addEventListener('keydown',function(event){
+  const target=event.target instanceof Element?event.target:null;
+  if(event.key==='Escape'&&gameModal&&gameModal.classList.contains('active')){
+    event.preventDefault();
+    closeGameModal();
+    return;
+  }
+  if(!target)return;
+  const station=target.closest('.machine-station');
+  if(station&&(event.key==='Enter'||event.key===' ')){
+    event.preventDefault();
+    activateStation(station);
+  }
+});
+
 document.getElementById('resetAll').addEventListener('click',function(){
-  stopActiveGame();
+  closeGameModal();
   solved.clear();
-  stage.classList.remove('active');
-  gameMount.innerHTML='';
   renderHub();
 });
