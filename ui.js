@@ -7,6 +7,11 @@ function renderMachine(){
   const count=solved.size;
   machineScene.dataset.level=String(count);
   machineScene.style.setProperty('--power',(count/9*100)+'%');
+  machineScene.classList.toggle('complete',count===9);
+  machineScene.querySelectorAll('[data-activate]').forEach(function(part){
+    const threshold=Number(part.dataset.activate)||1;
+    part.classList.toggle('active',count>=threshold);
+  });
   machineScene.querySelectorAll('.machine-station').forEach(function(station){
     const id=Number(station.dataset.station);
     const active=solved.has(id);
