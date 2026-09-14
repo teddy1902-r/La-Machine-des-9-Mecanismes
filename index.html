@@ -24,10 +24,55 @@
     </div>
 
     <div id="machineScene" class="machine-scene" data-level="0" aria-label="Vue de la machine géante">
-      <div class="machine-grid"></div>
+      <div class="machine-grid" aria-hidden="true"></div>
+      <div class="machine-scanline" aria-hidden="true"></div>
+
+      <div class="machine-frame frame-left" aria-hidden="true">
+        <span class="frame-rivet rivet-a"></span><span class="frame-rivet rivet-b"></span>
+        <span class="frame-strut"></span><span class="frame-strut"></span>
+        <b>09</b><small>INDUSTRIAL<br>POWER CELL</small>
+      </div>
+      <div class="machine-frame frame-right" aria-hidden="true">
+        <span class="frame-rivet rivet-a"></span><span class="frame-rivet rivet-b"></span>
+        <span class="frame-strut"></span><span class="frame-strut"></span>
+        <b>Ω</b><small>CORE<br>CONTAINMENT</small>
+      </div>
+
+      <div class="machine-header-plate" aria-hidden="true">
+        <span class="plate-id">M-09 // MK.IV</span>
+        <strong>COLOSSUS POWER CHAMBER</strong>
+        <span class="plate-lamps"><i></i><i></i><i></i><i></i></span>
+      </div>
+
       <div class="machine-rim rim-one"></div>
       <div class="machine-rim rim-two"></div>
       <div class="machine-rim rim-three"></div>
+      <div class="machine-belt belt-one" data-activate="3" aria-hidden="true"></div>
+      <div class="machine-belt belt-two" data-activate="7" aria-hidden="true"></div>
+
+      <div class="machine-piston piston-left" data-activate="1" aria-hidden="true">
+        <span class="piston-cylinder"></span><span class="piston-rod"></span><span class="piston-joint"></span>
+      </div>
+      <div class="machine-piston piston-right" data-activate="5" aria-hidden="true">
+        <span class="piston-cylinder"></span><span class="piston-rod"></span><span class="piston-joint"></span>
+      </div>
+      <div class="machine-piston piston-bottom" data-activate="8" aria-hidden="true">
+        <span class="piston-cylinder"></span><span class="piston-rod"></span><span class="piston-joint"></span>
+      </div>
+
+      <div class="machine-column column-left" data-activate="2" aria-hidden="true">
+        <div class="column-cap"></div><b class="column-title">PRESSURE</b><small>SECTOR A-01</small>
+        <div class="pressure-gauge"><span class="gauge-ticks"></span><span class="gauge-needle"></span><i></i></div>
+        <div class="column-valve"><i></i></div><div class="column-port"></div>
+      </div>
+      <div class="machine-column column-right" data-activate="4" aria-hidden="true">
+        <div class="column-cap"></div><b class="column-title">COOLANT</b><small>SECTOR B-04</small>
+        <div class="pressure-gauge"><span class="gauge-ticks"></span><span class="gauge-needle"></span><i></i></div>
+        <div class="column-valve"><i></i></div><div class="column-port"></div>
+      </div>
+
+      <div class="machine-vent vent-left" data-activate="2" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="machine-vent vent-right" data-activate="6" aria-hidden="true"><span></span><span></span><span></span></div>
 
       <svg class="machine-pipe-map" viewBox="0 0 1000 500" role="img" aria-label="Réseau de conduites reliant les neuf mécanismes au cœur">
         <defs>
@@ -36,6 +81,8 @@
             <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
           </filter>
         </defs>
+        <circle class="machine-belt-svg belt-svg-one" cx="500" cy="250" r="196"></circle>
+        <circle class="machine-belt-svg belt-svg-two" cx="500" cy="250" r="222"></circle>
         <path class="pipe-rail" d="M500 250 L500 57"></path>
         <path class="pipe-rail" d="M500 250 L545 175 L620 105"></path>
         <path class="pipe-rail" d="M500 250 L620 250 L780 210"></path>
@@ -45,6 +92,14 @@
         <path class="pipe-rail" d="M500 250 L405 300 L270 340"></path>
         <path class="pipe-rail" d="M500 250 L380 250 L220 210"></path>
         <path class="pipe-rail" d="M500 250 L455 175 L380 105"></path>
+
+        <g class="pipe-joints" aria-hidden="true">
+          <circle cx="500" cy="57" r="13"></circle><circle cx="620" cy="105" r="13"></circle>
+          <circle cx="780" cy="210" r="13"></circle><circle cx="730" cy="340" r="13"></circle>
+          <circle cx="600" cy="445" r="13"></circle><circle cx="400" cy="445" r="13"></circle>
+          <circle cx="270" cy="340" r="13"></circle><circle cx="220" cy="210" r="13"></circle>
+          <circle cx="380" cy="105" r="13"></circle>
+        </g>
 
         <path class="machine-pipe" data-pipe="1" d="M500 250 L500 57"></path>
         <path class="machine-pipe" data-pipe="2" d="M500 250 L545 175 L620 105"></path>
@@ -57,6 +112,11 @@
         <path class="machine-pipe" data-pipe="9" d="M500 250 L455 175 L380 105"></path>
       </svg>
 
+      <div class="machine-turbine" data-activate="7" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><b></b>
+      </div>
+      <div class="machine-reactor-coil" data-activate="9" aria-hidden="true"><i></i><i></i><i></i></div>
+
       <div class="machine-steam steam-one" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="machine-steam steam-two" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="machine-steam steam-three" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -68,6 +128,8 @@
       <div class="machine-gear gear-five" data-gear="5" aria-hidden="true"></div>
       <div class="machine-gear gear-six" data-gear="6" aria-hidden="true"></div>
       <div class="machine-gear gear-seven" data-gear="7" aria-hidden="true"></div>
+      <div class="machine-gear gear-eight" data-gear="8" aria-hidden="true"></div>
+      <div class="machine-gear gear-nine" data-gear="9" aria-hidden="true"></div>
 
       <div id="machineCore" class="machine-core">
         <div class="core-orbit orbit-one"></div>
@@ -81,15 +143,16 @@
         <div class="core-label"><b id="machineCoreLabel">CORE HORS TENSION</b><small>RÉSEAU PRINCIPAL</small></div>
       </div>
 
-      <div class="machine-station station-1" data-station="1"><span class="station-number">01</span><span class="station-icon">⚡</span><strong>ÉNERGIE</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
-      <div class="machine-station station-2" data-station="2"><span class="station-number">02</span><span class="station-icon">⚙️</span><strong>ENGRENAGES</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
-      <div class="machine-station station-3" data-station="3"><span class="station-number">03</span><span class="station-icon">💨</span><strong>VAPEUR</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
-      <div class="machine-station station-4" data-station="4"><span class="station-number">04</span><span class="station-icon">💡</span><strong>LUMIÈRE</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
-      <div class="machine-station station-5" data-station="5"><span class="station-number">05</span><span class="station-icon">▦</span><strong>CONVOYEUR</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
-      <div class="machine-station station-6" data-station="6"><span class="station-number">06</span><span class="station-icon">🧲</span><strong>MAGNÉTIQUE</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
-      <div class="machine-station station-7" data-station="7"><span class="station-number">07</span><span class="station-icon">🕒</span><strong>HORLOGE</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
-      <div class="machine-station station-8" data-station="8"><span class="station-number">08</span><span class="station-icon">🔷</span><strong>RÉACTEUR</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
-      <div class="machine-station station-9" data-station="9"><span class="station-number">09</span><span class="station-icon">🖥️</span><strong>TERMINAL</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span></div>
+      <div class="machine-station station-1" data-station="1"><span class="station-number">01</span><span class="station-icon">⚡</span><strong>ÉNERGIE</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span><i class="station-bolt bolt-tl"></i><i class="station-bolt bolt-br"></i></div>
+      <div class="machine-station station-2" data-station="2"><span class="station-number">02</span><span class="station-icon">⚙️</span><strong>ENGRENAGES</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span><i class="station-bolt bolt-tl"></i><i class="station-bolt bolt-br"></i></div>
+      <div class="machine-station station-3" data-station="3"><span class="station-number">03</span><span class="station-icon">💨</span><strong>VAPEUR</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span><i class="station-bolt bolt-tl"></i><i class="station-bolt bolt-br"></i></div>
+      <div class="machine-station station-4" data-station="4"><span class="station-number">04</span><span class="station-icon">💡</span><strong>LUMIÈRE</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span><i class="station-bolt bolt-tl"></i><i class="station-bolt bolt-br"></i></div>
+      <div class="machine-station station-5" data-station="5"><span class="station-number">05</span><span class="station-icon">▦</span><strong>CONVOYEUR</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span><i class="station-bolt bolt-tl"></i><i class="station-bolt bolt-br"></i></div>
+      <div class="machine-station station-6" data-station="6"><span class="station-number">06</span><span class="station-icon">🧲</span><strong>MAGNÉTIQUE</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span><i class="station-bolt bolt-tl"></i><i class="station-bolt bolt-br"></i></div>
+      <div class="machine-station station-7" data-station="7"><span class="station-number">07</span><span class="station-icon">🕒</span><strong>HORLOGE</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span><i class="station-bolt bolt-tl"></i><i class="station-bolt bolt-br"></i></div>
+      <div class="machine-station station-8" data-station="8"><span class="station-number">08</span><span class="station-icon">🔷</span><strong>RÉACTEUR</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span><i class="station-bolt bolt-tl"></i><i class="station-bolt bolt-br"></i></div>
+      <div class="machine-station station-9" data-station="9"><span class="station-number">09</span><span class="station-icon">🖥️</span><strong>TERMINAL</strong><small class="station-state">HORS LIGNE</small><span class="station-led"></span><i class="station-bolt bolt-tl"></i><i class="station-bolt bolt-br"></i></div>
+    </div>
     </div>
 
     <div class="machine-console">
