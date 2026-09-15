@@ -6,8 +6,12 @@ function scrambledRotation(type,solution){
   }
   return candidates[Math.floor(Math.random()*candidates.length)];
 }
+function randomDecoy(){
+  const type=Math.random()<.58?'corner':'straight';
+  return {type:type,rot:Math.floor(Math.random()*4),solution:null};
+}
 function makeRouteGame(opts){
-  const {id,size,route,kind,leftIcon,rightIcon,leftLabel,rightLabel}=opts;
+  const {id,size,route,kind,leftIcon,rightIcon,leftLabel,rightLabel,fillDecoys=false}=opts;
   const routeSet=new Set(route.map(function(p){return p.join(',');}));
   const sol=new Map();
   route.forEach(function(p,i){
@@ -19,6 +23,12 @@ function makeRouteGame(opts){
   const state=new Map();
   for(const [k,v] of sol){
     state.set(k,{type:v.type,rot:scrambledRotation(v.type,v.rot),solution:v.rot});
+  }
+  if(fillDecoys){
+    for(let r=0;r<size;r++)for(let c=0;c<size;c++){
+      const key=r+','+c;
+      if(!state.has(key))state.set(key,randomDecoy());
+    }
   }
   const box=document.createElement('div');
   box.className='gamebox';
@@ -68,10 +78,13 @@ function makeRouteGame(opts){
     grid.innerHTML='';
     for(let r=0;r<size;r++)for(let c=0;c<size;c++){
       const key=r+','+c;
-      const el=document.createElement(routeSet.has(key)?'button':'div');
-      el.className='rot-cell '+(routeSet.has(key)?'path':'blank');
+      const isPath=routeSet.has(key);
+      const isDecoy=fillDecoys&&!isPath;
+      const interactive=isPath||isDecoy;
+      const el=document.createElement(interactive?'button':'div');
+      el.className='rot-cell '+(isPath?'path':isDecoy?'decoy':'blank');
       el.dataset.key=key;
-      if(routeSet.has(key)){
+      if(interactive){
         const cell=state.get(key);
         el.type='button';
         el.setAttribute('aria-label','Plaque du circuit '+(r+1)+', '+(c+1));
@@ -93,6 +106,15 @@ function makeRouteGame(opts){
     for(const [k,v] of sol){
       const cell=state.get(k);
       cell.rot=scrambledRotation(v.type,v.rot);
+    }
+    if(fillDecoys){
+      for(const [k,cell] of state){
+        if(!routeSet.has(k)){
+          const next=randomDecoy();
+          cell.type=next.type;
+          cell.rot=next.rot;
+        }
+      }
     }
     draw();
   });
