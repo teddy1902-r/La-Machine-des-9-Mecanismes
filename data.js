@@ -1,5 +1,5 @@
 const modules=[
-  {id:1,title:"Circuit d'énergie",icon:"⚡",desc:"Tourne les plaques d’un circuit 9×9 pour relier le générateur au cœur."},
+  {id:1,title:"Circuit d'énergie",icon:"⚡",desc:"Tourne toutes les plaques du circuit 9×9 : certaines sont de fausses pistes. Relie le générateur au cœur."},
   {id:2,title:"Train d'engrenages",icon:"⚙️",desc:"Déduis la bonne combinaison des cinq engrenages grâce aux équations."},
   {id:3,title:"Réseau de vapeur",icon:"💨",desc:"Réoriente les tuyaux du réseau pour conduire la vapeur jusqu’à la turbine."},
   {id:4,title:"Tableau lumineux",icon:"💡",desc:"Chaque pression inverse une lampe et ses voisines. Allume tout le tableau 5×5."},
