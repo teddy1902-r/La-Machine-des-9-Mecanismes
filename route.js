@@ -42,22 +42,55 @@ function makeRouteGame(opts){
   const grid=box.querySelector('#rg');
   const st=box.querySelector('#st');
   let finished=false;
+
+  // Explore the actual connected network instead of following only the
+  // hidden solution route. This makes every valid route to the core count.
   function powered(){
+    const start=route[0];
+    const target=route[route.length-1];
+    const startKey=start.join(',');
+    const targetKey=target.join(',');
+    const delta={N:[-1,0],E:[0,1],S:[1,0],W:[0,-1]};
     const p=[];
-    let cur=route[0],incoming='W';
-    for(let i=0;i<route.length;i++){
-      const key=cur.join(',');
-      const cell=state.get(key);
-      const con=connectors(cell.type,cell.rot);
-      if(!con.includes(incoming))break;
-      p.push(key);
-      if(i===route.length-1)return {p:p,reached:con.includes('E')};
-      const out=dirBetween(cur,route[i+1]);
-      if(!con.includes(out))break;
-      incoming=opp[out];
-      cur=route[i+1];
+    const first=state.get(startKey);
+
+    if(!first || !connectors(first.type,first.rot).includes('W')){
+      return {p:p,reached:false};
     }
-    return {p:p,reached:false};
+
+    const queue=[start];
+    const visited=new Set([startKey]);
+    let reached=false;
+
+    while(queue.length){
+      const current=queue.shift();
+      const key=current.join(',');
+      const cell=state.get(key);
+      if(!cell)continue;
+
+      const con=connectors(cell.type,cell.rot);
+      p.push(key);
+      if(key===targetKey && con.includes('E'))reached=true;
+
+      for(const direction of con){
+        const step=delta[direction];
+        const nr=current[0]+step[0];
+        const nc=current[1]+step[1];
+        if(nr<0||nr>=size||nc<0||nc>=size)continue;
+
+        const nextKey=nr+','+nc;
+        if(visited.has(nextKey))continue;
+
+        const next=state.get(nextKey);
+        if(!next)continue;
+        if(!connectors(next.type,next.rot).includes(opp[direction]))continue;
+
+        visited.add(nextKey);
+        queue.push([nr,nc]);
+      }
+    }
+
+    return {p:p,reached:reached};
   }
   function check(){
     const res=powered();
