@@ -53,6 +53,32 @@ h1{margin:0;font-size:clamp(1.45rem,4vw,2.5rem);letter-spacing:.05em}
 .status.bad{color:var(--danger)}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
 .small{font-size:.85rem;color:var(--muted)}
+.gamebox > .small{
+  position:relative;
+  display:block;
+  max-width:780px;
+  margin:0 auto 14px;
+  padding:10px 13px 11px 15px;
+  border:1px solid #4b6070;
+  border-left:3px solid var(--accent);
+  border-radius:11px;
+  background:linear-gradient(145deg,#182832,#101920);
+  color:#e4edf2;
+  font-size:.9rem;
+  line-height:1.45;
+  text-align:left !important;
+  overflow-wrap:anywhere;
+}
+.gamebox > .small::before{
+  content:'CONSIGNE';
+  display:block;
+  margin-bottom:3px;
+  color:var(--accent);
+  font-size:.57rem;
+  font-weight:900;
+  letter-spacing:.14em;
+}
+.gamebox > .small b{color:var(--warn);white-space:nowrap}
 footer{padding:14px 0;color:#92a0ad;text-align:center;font-size:.8rem}
 .rot-wrap{display:grid;grid-template-columns:62px minmax(0,480px) 62px;gap:7px;align-items:center;justify-content:center}
 .rot-side{text-align:center;font-size:.67rem;font-weight:800}
@@ -223,6 +249,13 @@ footer{padding:14px 0;color:#92a0ad;text-align:center;font-size:.8rem}
   .mag-btn{width:36px;height:36px;font-size:1rem}
   .mag-grid{padding:4px;gap:3px}
   .hero,.stage{padding:11px;border-radius:14px}
+  .gamebox > .small{
+    margin-bottom:10px;
+    padding:8px 10px 9px 12px;
+    font-size:.78rem;
+    line-height:1.35;
+  }
+  .gamebox > .small::before{margin-bottom:2px;font-size:.5rem}
   .hub{grid-template-columns:1fr}
   .gear{width:62px;height:62px;border-width:8px}
   .puzzle8{grid-template-columns:repeat(3,68px)}
@@ -1841,6 +1874,9 @@ body.game-open{
   .modal-signal{font-size:.43rem}
   .modal-close{font-size:.6rem;padding:6px 7px}
   .game-modal .stage-head{margin-bottom:11px;padding-bottom:9px}
+  .game-modal .stage h2{font-size:1.05rem;line-height:1.2}
+  .game-modal .stage .desc{max-width:100%;font-size:.74rem;line-height:1.35}
+  .code-lock-explain{padding:8px 10px;font-size:.76rem;line-height:1.35;text-align:left}
 }
 
 
