@@ -1829,6 +1829,12 @@ body.game-open{
   text-shadow:0 0 12px #5bddeb44;
 }
 .game-modal .stage .desc{color:#a9bdc1}
+.game-modal .stage,
+.game-modal .gamebox,
+.game-modal .gamebox button,
+.game-modal .gamebox [role="button"]{
+  touch-action:manipulation;
+}
 .game-modal .gamebox{
   border-color:#876641;
   background:
@@ -2192,27 +2198,3 @@ body.game-open{
 @media(max-width:460px){
   .magnetic-rules{
     gap:4px;
-    font-size:.66rem;
-  }
-  .magnetic-rules span{
-    padding:4px 5px;
-  }
-  .magnetic-grid{
-    gap:3px;
-    padding:5px;
-    border-radius:10px;
-  }
-  .magnetic-cell{
-    border-radius:5px;
-    font-size:1rem;
-  }
-  .magnetic-cell small{
-    right:2px;
-    bottom:2px;
-    font-size:.39rem;
-  }
-  .magnetic-cell.clue::before{
-    inset:2px;
-    border-radius:3px;
-  }
-}
