@@ -25,5 +25,6 @@ const machinePowerText=document.getElementById('machinePowerText');
 const machinePowerTextConsole=document.getElementById('machinePowerTextConsole');
 const machinePowerFill=document.getElementById('machinePowerFill');
 const machineFeed=document.getElementById('machineFeed');
+const secretReveal=document.getElementById('secretReveal');
 const games={};
 let activeCleanup=function(){};
