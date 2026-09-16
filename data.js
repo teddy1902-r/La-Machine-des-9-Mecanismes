@@ -1,7 +1,7 @@
 const modules=[
   {id:1,title:"Circuit d'énergie",icon:"⚡",desc:"Tourne toutes les plaques du circuit 9×9 : certaines sont de fausses pistes. Relie le générateur au cœur."},
   {id:2,title:"Train d'engrenages",icon:"⚙️",desc:"Déduis la bonne combinaison des cinq engrenages grâce aux équations."},
-  {id:3,title:"Réseau de vapeur",icon:"💨",desc:"Réoriente les tuyaux du réseau pour conduire la vapeur jusqu’à la turbine."},
+  {id:3,title:"Matrice de vapeur",icon:"💨",desc:"Active les soupapes selon les indices pour reconstituer le motif de condensation."},
   {id:4,title:"Tableau lumineux",icon:"💡",desc:"Chaque pression inverse une lampe et ses voisines. Allume tout le tableau 5×5."},
   {id:5,title:"Convoyeur coulissant",icon:"▦",desc:"Remets les huit plaques mélangées du convoyeur dans l’ordre."},
   {id:6,title:"Chambre magnétique",icon:"🧲",desc:"Guide la sphère à travers un labyrinthe magnétique 7×7."},
