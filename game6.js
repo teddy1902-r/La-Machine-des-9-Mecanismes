@@ -1,83 +1,145 @@
 games[6]=function(){
+  const solution=[
+    [1,1,0,1,0,0],
+    [0,0,1,1,0,1],
+    [0,1,0,0,1,1],
+    [1,0,0,1,1,0],
+    [0,1,1,0,0,1],
+    [1,0,1,0,1,0]
+  ];
+  const clues=[
+    [1,1,null,1,null,0],
+    [null,null,1,1,null,1],
+    [null,1,null,null,null,null],
+    [null,null,null,1,null,null],
+    [null,null,null,null,0,null],
+    [null,0,null,null,1,null]
+  ];
+  const size=6;
+  const current=clues.map(function(row){return row.slice();});
   const box=document.createElement('div');
   box.className='gamebox';
-  box.innerHTML='<p class="small" style="text-align:center">Les électroaimants déplacent la sphère d’une case. Évite les blocs et suis le corridor jusqu’à la case dorée.</p>'+
-    '<div class="magnet-layout"><button class="mag-btn north" data-d="-1,0" type="button" aria-label="Monter">▲</button>'+
-    '<button class="mag-btn west" data-d="0,-1" type="button" aria-label="Aller à gauche">◀</button>'+
-    '<div id="mg" class="mag-grid g7"></div>'+
-    '<button class="mag-btn east" data-d="0,1" type="button" aria-label="Aller à droite">▶</button>'+
-    '<button class="mag-btn south" data-d="1,0" type="button" aria-label="Descendre">▼</button></div>'+
-    '<div class="status" id="st">Sphère non alignée.</div>'+
-    '<div class="row"><button class="btn" id="reset" type="button">↻ Replacer la sphère</button></div>';
+  box.innerHTML='<p class="small" style="text-align:center">Stabilise la chambre magnétique en plaçant les polarités <b>N</b> (Nord) et <b>S</b> (Sud).</p>'+ 
+    '<div class="magnetic-rules"><span>◆ 3 N et 3 S par ligne et par colonne</span><span>◆ Jamais 3 polarités identiques à la suite</span><span>◆ Aucune ligne ni colonne identique</span></div>'+ 
+    '<div id="magneticGrid" class="magnetic-grid" role="grid" aria-label="Grille des polarités magnétiques"></div>'+ 
+    '<div class="magnetic-legend"><span class="magnetic-key north">N</span> Nord <span class="magnetic-key south">S</span> Sud <span class="magnetic-key locked">🔒</span> Indice verrouillé</div>'+ 
+    '<div class="status" id="st">Chambre magnétique instable.</div>'+ 
+    '<div class="row"><button class="btn" id="reset" type="button">↻ Effacer les réponses</button></div>';
   gameMount.appendChild(box);
-  const mg=box.querySelector('#mg');
+
+  const grid=box.querySelector('#magneticGrid');
   const st=box.querySelector('#st');
-  const size=7;
-  const walls=new Set([
-    '0,0','0,1','0,5',
-    '1,0','1,1','1,3','1,5',
-    '2,3',
-    '3,1','3,2','3,3','3,4',
-    '4,1','4,2','4,3','4,4',
-    '5,1','5,2','5,3','5,4','5,5','5,6',
-    '6,1','6,2','6,3','6,4','6,5','6,6'
-  ]);
-  const target=[0,6];
-  const start=[6,0];
-  let ball=start.slice();
   let moves=0;
   let finished=false;
-  function draw(){
-    mg.innerHTML='';
-    for(let r=0;r<size;r++)for(let c=0;c<size;c++){
-      const d=document.createElement('div');
-      const key=r+','+c;
-      d.className='mag-cell';
-      d.setAttribute('aria-label',walls.has(key)?'Bloc magnétique':'Case '+(r+1)+', '+(c+1));
-      if(walls.has(key)){
-        d.classList.add('wall');
-        d.textContent='◆';
-      }
-      if(r===target[0]&&c===target[1]){
-        d.classList.add('target');
-        d.textContent='★';
-      }
-      if(r===ball[0]&&c===ball[1]){
-        d.classList.add('ball');
-        d.textContent='●';
-      }
-      mg.appendChild(d);
+
+  function markLine(values,positions,bad){
+    const north=values.filter(function(value){return value===1;}).length;
+    const south=values.filter(function(value){return value===0;}).length;
+    if(north>3||south>3){
+      positions.forEach(function(position,index){if(values[index]!==null)bad.add(position);});
     }
-    if(ball[0]===target[0]&&ball[1]===target[1]){
-      if(!finished){
-        finished=true;
-        complete(6,st,'🧲 Sphère magnétique verrouillée en '+moves+' impulsions !');
+    for(let i=0;i<=size-3;i++){
+      if(values[i]!==null&&values[i]===values[i+1]&&values[i]===values[i+2]){
+        bad.add(positions[i]);
+        bad.add(positions[i+1]);
+        bad.add(positions[i+2]);
       }
-    }else if(!finished){
-      st.textContent='Sphère non alignée • Impulsions : '+moves;
-      st.className='status';
     }
   }
-  box.querySelectorAll('.mag-btn').forEach(function(button){
-    button.addEventListener('click',function(){
-      if(finished)return;
-      const parts=button.dataset.d.split(',').map(Number);
-      const nr=ball[0]+parts[0],nc=ball[1]+parts[1];
-      if(nr>=0&&nr<size&&nc>=0&&nc<size&&!walls.has(nr+','+nc)){
-        ball=[nr,nc];
-        moves++;
-        draw();
-      }else{
-        st.textContent='Impulsion bloquée par un obstacle • Impulsions : '+moves;
-        st.className='status bad';
+
+  function findViolations(){
+    const bad=new Set();
+    for(let r=0;r<size;r++){
+      const positions=current[r].map(function(_,c){return r+','+c;});
+      markLine(current[r],positions,bad);
+    }
+    for(let c=0;c<size;c++){
+      const values=current.map(function(row){return row[c];});
+      const positions=values.map(function(_,r){return r+','+c;});
+      markLine(values,positions,bad);
+    }
+    const completeRows=new Map();
+    const completeColumns=new Map();
+    for(let r=0;r<size;r++){
+      if(current[r].every(function(value){return value!==null;})){
+        const key=current[r].join('');
+        if(completeRows.has(key)){
+          [r,completeRows.get(key)].forEach(function(row){for(let c=0;c<size;c++)bad.add(row+','+c);});
+        }else completeRows.set(key,r);
       }
+    }
+    for(let c=0;c<size;c++){
+      const values=current.map(function(row){return row[c];});
+      if(values.every(function(value){return value!==null;})){
+        const key=values.join('');
+        if(completeColumns.has(key)){
+          [c,completeColumns.get(key)].forEach(function(column){for(let r=0;r<size;r++)bad.add(r+','+column);});
+        }else completeColumns.set(key,c);
+      }
+    }
+    return bad;
+  }
+
+  function isSolved(){
+    return current.every(function(row,r){
+      return row.every(function(value,c){return value!==null&&value===solution[r][c];});
     });
-  });
+  }
+
+  function render(){
+    const violations=findViolations();
+    grid.innerHTML='';
+    for(let r=0;r<size;r++)for(let c=0;c<size;c++){
+      const key=r+','+c;
+      const fixed=clues[r][c]!==null;
+      const value=current[r][c];
+      const cell=document.createElement('button');
+      cell.type='button';
+      cell.className='magnetic-cell'+(fixed?' clue':'')+(value===1?' north':value===0?' south':' unknown')+(violations.has(key)?' invalid':'');
+      cell.setAttribute('role','gridcell');
+      cell.setAttribute('aria-label','Polarité ligne '+(r+1)+', colonne '+(c+1)+(fixed?' verrouillée':''));
+      cell.setAttribute('aria-pressed',value===null?'false':'true');
+      cell.innerHTML='<span class="magnetic-symbol">'+(value===1?'N':value===0?'S':'?')+'</span>'+(fixed?'<small>🔒</small>':'');
+      if(!fixed){
+        cell.addEventListener('click',function(){
+          if(finished)return;
+          const order=[null,1,0];
+          const index=order.indexOf(current[r][c]);
+          current[r][c]=order[(index+1)%order.length];
+          moves++;
+          render();
+        });
+      }else{
+        cell.disabled=true;
+      }
+      grid.appendChild(cell);
+    }
+
+    if(isSolved()){
+      if(!finished){
+        finished=true;
+        grid.classList.add('solved');
+        complete(6,st,'🧲 Polarités magnétiques stabilisées en '+moves+' manipulations !');
+      }
+    }else if(!finished){
+      if(violations.size){
+        st.textContent='Contradiction détectée dans la chambre • Corrige les cases rouges.';
+        st.className='status bad';
+      }else{
+        st.textContent='Chambre magnétique instable • Cases renseignées : '+current.flat().filter(function(value){return value!==null;}).length+' / 36';
+        st.className='status';
+      }
+    }
+  }
+
   box.querySelector('#reset').addEventListener('click',function(){
     if(finished)return;
-    ball=start.slice();
+    for(let r=0;r<size;r++)for(let c=0;c<size;c++){
+      if(clues[r][c]===null)current[r][c]=null;
+    }
     moves=0;
-    draw();
+    render();
   });
-  draw();
+
+  render();
 };
