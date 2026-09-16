@@ -5,7 +5,7 @@ const modules=[
   {id:4,title:"Tableau lumineux",icon:"💡",desc:"Chaque pression inverse une lampe et ses voisines. Allume tout le tableau 5×5."},
   {id:5,title:"Convoyeur coulissant",icon:"▦",desc:"Remets les huit plaques mélangées du convoyeur dans l’ordre."},
   {id:6,title:"Serrure à combinaison",icon:"🔐",desc:"Déduis le code secret à 4 chiffres grâce aux indices gravés sur la serrure."},
-  {id:7,title:"Horloge centrale",icon:"🕒",desc:"Résous quatre équations pour synchroniser les horloges."},
+  {id:7,title:"Tour des pistons",icon:"🛠️",desc:"Transfère les quatre pistons vers la tour d’arrivée sans poser un grand sur un petit."},
   {id:8,title:"Cœur du réacteur",icon:"🔷",desc:"Stabilise les quatre jauges couplées sur la signature demandée."},
   {id:9,title:"Terminal principal",icon:"🖥️",desc:"Mémorise quatre séquences de plus en plus longues."}
 ];
