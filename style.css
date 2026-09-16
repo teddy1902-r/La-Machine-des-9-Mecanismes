@@ -59,6 +59,54 @@ footer{padding:14px 0;color:#92a0ad;text-align:center;font-size:.8rem}
 .rot-orb{width:46px;height:46px;margin:auto auto 5px;border-radius:50%;display:grid;place-items:center;background:#182028;border:2px solid #60707e;font-size:1.25rem}
 .rot-grid{display:grid;gap:4px;padding:7px;border:2px solid #536170;border-radius:12px;background:#0b1014;aspect-ratio:1}
 .g7{grid-template-columns:repeat(7,1fr)}
+
+
+/* mécanisme 6 — serrure à combinaison */
+.code-lock-explain{
+  max-width:760px;margin:0 auto 14px;padding:11px 14px;border:1px solid #4b6070;
+  border-radius:12px;background:#18232d;color:#dbe7ee;line-height:1.45;text-align:center
+}
+.code-dials{
+  display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:16px auto 14px
+}
+.code-wheel{
+  width:82px;height:102px;border:2px solid #647789;border-radius:14px;padding:8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  background:linear-gradient(145deg,#334351,#17212a);color:#fff;cursor:pointer;
+  box-shadow:inset 0 0 18px #0008,0 5px 12px #0005;transition:transform .15s,border-color .15s,box-shadow .15s
+}
+.code-wheel:hover{transform:translateY(-2px);border-color:#72e7ff}
+.code-wheel.empty{border-style:dashed;color:#a7b8c5}
+.code-wheel-position{font-size:.72rem;color:#9eb3c2;font-weight:800}
+.code-wheel-value{font-size:2.2rem;line-height:1;font-weight:900;color:#f1c678}
+.code-wheel.empty .code-wheel-value{color:#8da1af}
+.code-wheel-help{font-size:.62rem;color:#aebbc7;text-transform:uppercase;letter-spacing:.06em}
+.code-dials.solved .code-wheel{border-color:#7ef29a;background:linear-gradient(145deg,#2d6748,#11261b);box-shadow:0 0 18px #7ef29a66}
+.code-clues-title{margin:16px 0 8px;text-align:center;color:#f0c98b;font-weight:900}
+.code-clues{display:grid;gap:8px;max-width:680px;margin:0 auto}
+.code-clue{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:9px 11px;border:1px solid #40515f;border-radius:10px;background:#141d24
+}
+.code-guess{display:flex;gap:5px;flex:none}
+.code-clue-number{
+  width:32px;height:32px;border-radius:8px;display:grid;place-items:center;
+  background:#2d3c49;border:1px solid #6a7c8a;color:#fff;font-weight:900
+}
+.code-feedback{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap}
+.code-badge{
+  display:inline-flex;align-items:center;gap:4px;border-radius:99px;padding:4px 8px;
+  font-size:.72rem;font-weight:800;white-space:nowrap
+}
+.code-badge.exact{background:#173d2b;color:#8ff0ae;border:1px solid #3e9760}
+.code-badge.misplaced{background:#48361b;color:#ffd778;border:1px solid #a67c37}
+.code-legend{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.code-legend .code-badge{font-size:.7rem}
+@media(max-width:520px){
+  .code-wheel{width:68px;height:92px}
+  .code-clue{align-items:flex-start;flex-direction:column}
+  .code-feedback{justify-content:flex-start}
+}
 .g9{grid-template-columns:repeat(9,1fr)}
 .g5{grid-template-columns:repeat(5,1fr)}
 .rot-cell{
