@@ -1,49 +1,110 @@
 games[7]=function(){
   const box=document.createElement('div');
   box.className='gamebox';
-  box.innerHTML='<p class="small" style="text-align:center"><b>Indices gravés :</b> A + B = 10 • B = A + 4 • C − A = 8 • D + B = 16</p>'+
-    '<div id="clocks" class="clocks"></div><div class="status" id="st">Les aiguilles ne sont pas synchronisées.</div>'+
-    '<div class="row"><button class="btn" id="reset" type="button">↻ Remettre à 12</button></div>';
+  box.innerHTML='<p class="small" style="text-align:center"><b>Objectif :</b> transfère toute la colonne de pistons vers la tour de droite.</p>'+
+    '<div class="tower-rules"><span>◆ Un seul piston à la fois</span><span>◆ Jamais un grand sur un petit</span><span>◆ Minimum : 15 coups</span></div>'+
+    '<div class="tower-meta"><span id="towerMoves">Coups : 0</span><span>Tour de départ → tour d’arrivée</span></div>'+
+    '<div id="towerBoard" class="tower-board" role="group" aria-label="Tour des pistons"></div>'+
+    '<div class="status" id="st">Colonne verrouillée • Clique sur une tour pour choisir son piston supérieur.</div>'+
+    '<div class="row"><button class="btn" id="reset" type="button">↻ Replacer les pistons</button></div>';
   gameMount.appendChild(box);
-  const clocks=box.querySelector('#clocks');
+
+  const board=box.querySelector('#towerBoard');
+  const movesLabel=box.querySelector('#towerMoves');
   const st=box.querySelector('#st');
-  const target=[3,7,11,9];
-  let vals=[12,12,12,12];
+  const start=[[4,3,2,1],[],[]];
+  const pegs=start.map(function(peg){return peg.slice();});
+  let selected=-1;
+  let moves=0;
   let finished=false;
+  let message='Colonne verrouillée • Clique sur une tour pour choisir son piston supérieur.';
+  let messageClass='status';
+
+  function isSolved(){
+    return pegs[0].length===0&&pegs[1].length===0&&pegs[2].join(',')==='4,3,2,1';
+  }
+
   function draw(){
-    clocks.innerHTML='';
-    vals.forEach(function(value,index){
-      const card=document.createElement('div');
-      card.className='clock-card';
-      const deg=(value%12)*30;
-      card.innerHTML='<b>'+String.fromCharCode(65+index)+'</b><div class="dial"><div class="hand" style="transform:rotate('+deg+'deg)"></div></div>'+
-        '<div class="clock-num">'+value+' h</div><div class="row"><button class="btn minus" type="button">−</button><button class="btn plus" type="button">+</button></div>';
-      card.querySelector('.minus').addEventListener('click',function(){
-        if(finished)return;
-        vals[index]=vals[index]===1?12:vals[index]-1;
-        draw();
-      });
-      card.querySelector('.plus').addEventListener('click',function(){
-        if(finished)return;
-        vals[index]=vals[index]===12?1:vals[index]+1;
-        draw();
-      });
-      clocks.appendChild(card);
+    board.innerHTML='';
+    pegs.forEach(function(peg,pegIndex){
+      const tower=document.createElement('button');
+      tower.type='button';
+      tower.className='tower-peg'+(selected===pegIndex?' selected':'');
+      tower.setAttribute('aria-label','Tour '+(pegIndex+1)+(peg.length?' avec '+peg.length+' piston'+(peg.length>1?'s':''):' vide'));
+      tower.innerHTML='<span class="tower-peg-label">TOUR '+(pegIndex+1)+'</span>'+
+        '<span class="tower-stack">'+peg.map(function(size,index){
+          return '<span class="tower-disc size-'+size+'" style="bottom:'+(index*28+31)+'px"><b>'+size+'</b></span>';
+        }).join('')+'</span>';
+      tower.addEventListener('click',function(){handleTower(pegIndex);});
+      board.appendChild(tower);
     });
-    if(vals.every(function(value,index){return value===target[index];})){
-      if(!finished){
-        finished=true;
-        complete(7,st,'🕒 Horloges synchronisées : 3 h — 7 h — 11 h — 9 h !');
+    movesLabel.textContent='Coups : '+moves;
+    st.textContent=message;
+    st.className=messageClass;
+  }
+
+  function handleTower(target){
+    if(finished)return;
+    if(selected===-1){
+      if(!pegs[target].length){
+        message='Cette tour est vide • Choisis une tour qui contient un piston.';
+        messageClass='status bad';
+      }else{
+        selected=target;
+        const disk=pegs[target][pegs[target].length-1];
+        message='Piston '+disk+' sélectionné • Clique sur la tour où tu veux le poser.';
+        messageClass='status';
       }
-    }else if(!finished){
-      st.textContent='Les aiguilles ne sont pas synchronisées.';
-      st.className='status';
+      draw();
+      return;
+    }
+
+    if(target===selected){
+      selected=-1;
+      message='Sélection annulée • Choisis une tour de départ.';
+      messageClass='status';
+      draw();
+      return;
+    }
+
+    const source=pegs[selected];
+    const destination=pegs[target];
+    const disk=source[source.length-1];
+    const top=destination[destination.length-1];
+    if(top&&top<disk){
+      message='Blocage hydraulique • Un grand piston ne peut pas être posé sur un plus petit.';
+      messageClass='status bad';
+      draw();
+      return;
+    }
+
+    destination.push(source.pop());
+    moves++;
+    selected=-1;
+    if(isSolved()){
+      finished=true;
+      message='🛠️ Tour des pistons terminée en '+moves+' coup'+(moves>1?'s':'')+' !';
+      messageClass='status ok';
+      draw();
+      complete(7,st,message);
+    }else{
+      message='Déplacement enregistré • Continue à reconstruire la colonne.';
+      messageClass='status';
+      draw();
     }
   }
+
   box.querySelector('#reset').addEventListener('click',function(){
     if(finished)return;
-    vals=[12,12,12,12];
+    pegs[0].splice(0,pegs[0].length,4,3,2,1);
+    pegs[1].length=0;
+    pegs[2].length=0;
+    selected=-1;
+    moves=0;
+    message='Colonne verrouillée • Clique sur une tour pour choisir son piston supérieur.';
+    messageClass='status';
     draw();
   });
+
   draw();
 };
