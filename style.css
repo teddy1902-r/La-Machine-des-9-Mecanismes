@@ -1769,3 +1769,162 @@ body.game-open{
   margin:0 !important;
   overflow:hidden !important;
 }
+
+
+/* Mécanisme 3 — matrice logique de vapeur */
+.steam-picross-layout{
+  display:grid;
+  grid-template-columns:64px minmax(0,420px);
+  grid-template-rows:64px minmax(0,420px);
+  gap:6px;
+  width:min(100%,500px);
+  margin:15px auto 10px;
+}
+.steam-picross-corner{
+  display:grid;
+  place-items:center;
+  border:1px solid #876641;
+  border-radius:10px;
+  background:radial-gradient(circle,#31515a,#111a20 72%);
+  font-size:1.55rem;
+  box-shadow:inset 0 0 15px #000,0 0 12px #49d9e833;
+}
+.steam-clues{
+  color:#d6b477;
+  font-weight:900;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  text-shadow:0 0 8px #d89d4b55;
+}
+.steam-col-clues{
+  grid-column:2;
+  grid-row:1;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:5px;
+  align-items:end;
+  padding:0 7px 5px;
+}
+.steam-row-clues{
+  grid-column:1;
+  grid-row:2;
+  display:grid;
+  grid-template-rows:repeat(5,minmax(0,1fr));
+  gap:5px;
+  align-items:center;
+  justify-items:end;
+  padding-right:5px;
+}
+.steam-col-clues>div{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  gap:2px;
+}
+.steam-row-clues>div{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:3px;
+}
+.steam-clues span{
+  display:grid;
+  place-items:center;
+  min-width:20px;
+  height:20px;
+  padding:0 3px;
+  border:1px solid #a77b49;
+  border-radius:5px;
+  background:#202b32;
+  font-size:.72rem;
+}
+.steam-board{
+  grid-column:2;
+  grid-row:2;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:5px;
+  padding:7px;
+  border:2px solid #876641;
+  border-radius:13px;
+  background:#080f14;
+  box-shadow:inset 0 0 22px #000,0 7px 15px #0008;
+}
+.steam-cell{
+  display:grid;
+  place-items:center;
+  aspect-ratio:1;
+  padding:0;
+  border:1px solid #4d606a;
+  border-radius:8px;
+  background:linear-gradient(145deg,#263740,#101920);
+  color:#9ffaff;
+  cursor:pointer;
+  font-size:1.25rem;
+  touch-action:manipulation;
+  user-select:none;
+  -webkit-user-select:none;
+  transition:background .16s,border-color .16s,box-shadow .16s,transform .16s;
+}
+.steam-cell:hover{
+  border-color:#7debf2;
+  transform:translateY(-1px);
+}
+.steam-cell.active{
+  border-color:#62eaff;
+  background:radial-gradient(circle at 50% 35%,#adffff 0 5%,#2b9eae 22%,#164754 58%,#0b1b22 100%);
+  box-shadow:0 0 12px #56eaff99,inset 0 0 13px #bfffff55;
+}
+.steam-cell.active span{
+  color:#e8ffff;
+  text-shadow:0 0 10px #fff,0 0 18px #64eaff;
+}
+.steam-board.solved .steam-cell.active{
+  border-color:#7ef29a;
+  background:radial-gradient(circle,#baffd3 0 6%,#279d75 25%,#123d34 70%);
+  box-shadow:0 0 15px #66f0b088,inset 0 0 13px #d4ffe355;
+}
+.steam-legend{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  color:#aebbc7;
+  font-size:.75rem;
+}
+.steam-legend-swatch{
+  width:15px;
+  height:15px;
+  display:inline-block;
+  border:1px solid #62eaff;
+  border-radius:4px;
+  background:#2b9eae;
+  box-shadow:0 0 8px #56eaff77;
+}
+@media(max-width:460px){
+  .steam-picross-layout{
+    grid-template-columns:45px minmax(0,1fr);
+    grid-template-rows:54px minmax(0,1fr);
+    gap:4px;
+    width:100%;
+  }
+  .steam-picross-corner{
+    border-radius:7px;
+    font-size:1.15rem;
+  }
+  .steam-col-clues{gap:3px;padding:0 5px 4px}
+  .steam-row-clues{gap:3px;padding-right:3px}
+  .steam-clues span{
+    min-width:16px;
+    height:17px;
+    padding:0 2px;
+    border-radius:4px;
+    font-size:.6rem;
+  }
+  .steam-board{
+    gap:3px;
+    padding:5px;
+    border-radius:9px;
+  }
+  .steam-cell{border-radius:5px;font-size:1rem}
+}
