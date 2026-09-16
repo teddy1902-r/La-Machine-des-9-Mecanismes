@@ -74,6 +74,11 @@ function renderHub(){
   });
   globalText.textContent=solved.size+' / 9';
   globalFill.style.width=(solved.size/9*100)+'%';
+  if(secretReveal){
+    const revealed=solved.size>=7;
+    secretReveal.classList.toggle('show',revealed);
+    secretReveal.setAttribute('aria-hidden',revealed?'false':'true');
+  }
   finalMachine.classList.toggle('show',solved.size===9);
   renderMachine();
 }
