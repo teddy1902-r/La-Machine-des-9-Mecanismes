@@ -32,7 +32,8 @@ function makeRouteGame(opts){
   }
   const box=document.createElement('div');
   box.className='gamebox';
-  box.innerHTML='<div class="rot-wrap">'+
+  box.innerHTML='<p class="small" style="text-align:center"><b>Objectif :</b> fais pivoter les plaques pour relier le générateur au cœur. Ignore les fausses pistes.</p>'+
+    '<div class="rot-wrap">'+
     '<div class="rot-side"><div class="rot-orb">'+leftIcon+'</div>'+leftLabel+'</div>'+
     '<div class="rot-grid g'+size+'" id="rg"></div>'+
     '<div class="rot-side"><div class="rot-orb">'+rightIcon+'</div>'+rightLabel+'</div>'+
