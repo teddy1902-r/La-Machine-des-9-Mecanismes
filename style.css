@@ -1928,3 +1928,173 @@ body.game-open{
   }
   .steam-cell{border-radius:5px;font-size:1rem}
 }
+
+
+/* Mécanisme 6 — chambre de polarités magnétiques */
+.magnetic-rules{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:6px 12px;
+  max-width:720px;
+  margin:12px auto 14px;
+  color:#b9c8d0;
+  font-size:.76rem;
+  line-height:1.35;
+  text-align:center;
+}
+.magnetic-rules span{
+  padding:5px 8px;
+  border:1px solid #596b76;
+  border-radius:7px;
+  background:#111a20;
+}
+.magnetic-grid{
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:6px;
+  width:min(100%,480px);
+  margin:14px auto;
+  padding:9px;
+  border:2px solid #82613e;
+  border-radius:14px;
+  background:
+    linear-gradient(145deg,#172b34,#080e13),
+    repeating-linear-gradient(135deg,transparent 0 14px,#7bbbc20c 14px 17px);
+  box-shadow:inset 0 0 25px #000,0 8px 16px #0009;
+}
+.magnetic-cell{
+  position:relative;
+  display:grid;
+  place-items:center;
+  aspect-ratio:1;
+  min-width:0;
+  padding:0;
+  border:1px solid #526772;
+  border-radius:9px;
+  background:linear-gradient(145deg,#273b44,#101a20);
+  color:#dceff3;
+  cursor:pointer;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:clamp(1.1rem,4vw,1.55rem);
+  font-weight:900;
+  touch-action:manipulation;
+  user-select:none;
+  -webkit-user-select:none;
+  transition:transform .14s,border-color .14s,background .14s,box-shadow .14s;
+}
+.magnetic-cell:hover:not(:disabled){
+  transform:translateY(-2px);
+  border-color:#a8faff;
+}
+.magnetic-cell.unknown{
+  color:#7d929d;
+  background:linear-gradient(145deg,#23313a,#10171c);
+}
+.magnetic-cell.north{
+  color:#dfffff;
+  border-color:#5deaff;
+  background:radial-gradient(circle at 50% 35%,#b9ffff 0 4%,#299eb5 25%,#123f50 68%);
+  box-shadow:0 0 11px #5deaff77,inset 0 0 14px #d5ffff44;
+}
+.magnetic-cell.south{
+  color:#fff0cf;
+  border-color:#e1a45c;
+  background:radial-gradient(circle at 50% 35%,#fff0bd 0 4%,#bd6f38 25%,#4c281e 68%);
+  box-shadow:0 0 11px #e1a45c66,inset 0 0 14px #fff2cb44;
+}
+.magnetic-cell.clue{
+  cursor:default;
+  border-style:dashed;
+}
+.magnetic-cell.clue::before{
+  content:"";
+  position:absolute;
+  inset:4px;
+  border:1px solid #ffffff33;
+  border-radius:5px;
+  pointer-events:none;
+}
+.magnetic-cell:disabled{
+  opacity:1;
+}
+.magnetic-cell small{
+  position:absolute;
+  right:4px;
+  bottom:3px;
+  font-size:.52rem;
+  line-height:1;
+  opacity:.9;
+}
+.magnetic-cell.invalid{
+  border-color:#ff6b74 !important;
+  box-shadow:0 0 13px #ff596666,inset 0 0 15px #ff394422 !important;
+  animation:magnetic-shake .18s linear 2;
+}
+.magnetic-grid.solved .magnetic-cell{
+  border-color:#72f2b0;
+  box-shadow:0 0 13px #6af0b077,inset 0 0 12px #d0ffe533;
+}
+@keyframes magnetic-shake{
+  25%{transform:translateX(-2px)}
+  75%{transform:translateX(2px)}
+}
+.magnetic-legend{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:7px;
+  color:#adbbc3;
+  font-size:.75rem;
+}
+.magnetic-key{
+  display:inline-grid;
+  place-items:center;
+  width:24px;
+  height:24px;
+  border-radius:6px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-weight:900;
+}
+.magnetic-key.north{
+  color:#dfffff;
+  border:1px solid #5deaff;
+  background:#1d7d93;
+}
+.magnetic-key.south{
+  color:#fff0cf;
+  border:1px solid #e1a45c;
+  background:#98552f;
+}
+.magnetic-key.locked{
+  width:auto;
+  font-size:.85rem;
+}
+@media(max-width:460px){
+  .magnetic-rules{
+    gap:4px;
+    font-size:.66rem;
+  }
+  .magnetic-rules span{
+    padding:4px 5px;
+  }
+  .magnetic-grid{
+    gap:3px;
+    padding:5px;
+    border-radius:10px;
+  }
+  .magnetic-cell{
+    border-radius:5px;
+    font-size:1rem;
+  }
+  .magnetic-cell small{
+    right:2px;
+    bottom:2px;
+    font-size:.39rem;
+  }
+  .magnetic-cell.clue::before{
+    inset:2px;
+    border-radius:3px;
+  }
+}
