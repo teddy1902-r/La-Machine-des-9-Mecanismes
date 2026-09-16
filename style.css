@@ -135,6 +135,12 @@ footer{padding:14px 0;color:#92a0ad;text-align:center;font-size:.8rem}
   .tower-meta{font-size:.72rem}
   .tower-disc{height:26px}
 }
+.secret-reveal{display:none;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:10px auto 0;padding:9px 12px;border:1px solid #8f7045;border-radius:10px;background:linear-gradient(90deg,#171f25,#332919,#171f25);box-shadow:0 0 14px #d6a65833,inset 0 0 14px #d6a65811}
+.secret-reveal.show{display:flex;animation:secret-reveal-in .35s ease-out both}
+.secret-caption{color:#f0c675;font-size:.72rem;font-weight:900;letter-spacing:.1em}
+.secret-reveal strong{color:#fff0bd;font-size:1.2rem;letter-spacing:.12em;text-shadow:0 0 10px #f0c67599}
+.secret-reveal small{color:#b7c4cc;font-size:.75rem}
+@keyframes secret-reveal-in{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
 .g9{grid-template-columns:repeat(9,1fr)}
 .g5{grid-template-columns:repeat(5,1fr)}
 .rot-cell{
